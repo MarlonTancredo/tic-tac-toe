@@ -10,15 +10,20 @@ const App = () => {
   const playerO = "O";
 
   const [state, setState] = useState(table);
-  const [currentPlayer, setCurrentPlayer] = useState(playerO);
+  const [currentPlayer, setCurrentPlayer] = useState();
+  const [isPlayerSelected, setIsPlayerSelected] = useState(false);
   const [victory, setVictory] = useState(false);
+  const [isDraw, setIsDraw] = useState(false);
   const [xPositions, setXPositions] = useState([]);
   const [oPositions, setOPositions] = useState([]);
+  const [xPoints, setXPoints] = useState(0);
+  const [oPoints, setOPoints] = useState(0);
+  const [counter, setCounter] = useState(0);
 
   const checkXVictory = (player, index) => {
     const myXPositions = [...xPositions];
 
-    let isThree = 0;
+    let isThree = false;
 
     let row1CounterX = 0;
     let row2CounterX = 0;
@@ -85,7 +90,7 @@ const App = () => {
   const checkOVictory = (player, index) => {
     const myOPositions = [...oPositions];
 
-    let isThree = 0;
+    let isThree = false;
 
     let row1CounterO = 0;
     let row2CounterO = 0;
@@ -149,11 +154,21 @@ const App = () => {
 
     return isThree;
   };
+  const selectPlayer = (player) => {
+    if (player === "X") {
+      setCurrentPlayer(playerX);
+    }
+    if (player === "O") {
+      setCurrentPlayer(playerO);
+    }
+    setIsPlayerSelected(true);
+  };
 
   const changeValue = (element, index) => {
-    let player;
     const myList = [...state];
-    //Return if the button has already value.
+
+    let player;
+
     if (element.player === "X" || element.player === "O") {
       return;
     }
@@ -172,17 +187,49 @@ const App = () => {
 
     if (checkXVictory(player, index)) {
       setVictory(true);
+      setXPoints(xPoints + 1);
     }
     if (checkOVictory(player, index)) {
       setVictory(true);
+      setOPoints(oPoints + 1);
+    }
+
+    setCounter(counter + 1);
+
+    if (!victory && counter === 8) {
+      setIsDraw(true);
     }
   };
 
-  return !victory ? (
+  const restartMatch = () => {
+    setVictory(false);
+    setState(table);
+    setXPositions([]);
+    setOPositions([]);
+    setCounter(0);
+    setIsDraw(false);
+    setIsPlayerSelected(false);
+  };
+
+  return !isPlayerSelected ? (
     <div className="app-container">
       <div>
         <h1>Tic-Tac-Toe</h1>
-        <h2>Points</h2>
+        <h2>
+          X points: {xPoints} - O points: {oPoints}
+        </h2>
+        <h2>Select player</h2>
+        <button onClick={() => selectPlayer("X")}>Player X</button>
+        <button onClick={() => selectPlayer("O")}>Player O</button>
+      </div>
+    </div>
+  ) : !victory && !isDraw ? (
+    <div className="app-container">
+      <div>
+        <h1>Tic-Tac-Toe</h1>
+        <h2>
+          X points: {xPoints} - O points: {oPoints}
+        </h2>
       </div>
       <div className="table-container">
         {state.map((element, index) => {
@@ -203,8 +250,14 @@ const App = () => {
     <div className="app-container">
       <div>
         <h1>Tic-Tac-Toe</h1>
-        <h2>Points</h2>
-        <h2>Player {currentPlayer} is the winner!</h2>
+        <h2>
+          X points: {xPoints} - O points: {oPoints}
+        </h2>
+        {isDraw ? (
+          <h2>Draw </h2>
+        ) : (
+          <h2>Player {currentPlayer} is the winner!</h2>
+        )}
       </div>
       <div className="table-container">
         {state.map((element, index) => {
@@ -217,7 +270,7 @@ const App = () => {
           );
         })}
       </div>
-      <button>Restart game!</button>
+      <button onClick={restartMatch}>Restart match!</button>
     </div>
   );
 };
