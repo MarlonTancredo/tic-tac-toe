@@ -27,3 +27,30 @@
 .table-button-disactive {
   cursor: not-allowed;
 }
+
+.player-button {
+  width: 10rem;
+  height: 10rem;
+  margin-right: 0.5rem;
+  background-color: #bbb6df;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.player-button:hover {
+  background-color: #c6c8ee;
+}
+
+.restart-match-button {
+  font-weight: bold;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #bbb6df;
+  border: none;
+  cursor: pointer;
+}
+
+.restart-match-button:hover {
+  background-color: #c6c8ee;
+}
