@@ -219,8 +219,12 @@ const App = () => {
           X points: {xPoints} - O points: {oPoints}
         </h2>
         <h2>Select player</h2>
-        <button onClick={() => selectPlayer("X")}>Player X</button>
-        <button onClick={() => selectPlayer("O")}>Player O</button>
+        <button className="player-button" onClick={() => selectPlayer("X")}>
+          Player X
+        </button>
+        <button className="player-button" onClick={() => selectPlayer("O")}>
+          Player O
+        </button>
       </div>
     </div>
   ) : !victory && !isDraw ? (
@@ -270,7 +274,9 @@ const App = () => {
           );
         })}
       </div>
-      <button onClick={restartMatch}>Restart match!</button>
+      <button className="restart-match-button" onClick={restartMatch}>
+        Restart match!
+      </button>
     </div>
   );
 };
