@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import App from "./App";
 
 describe("first test", () => {
-  it("renders learn react link", () => {
+  it("renders App component", () => {
     render(<App />);
   });
 });
